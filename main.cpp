@@ -11,7 +11,14 @@ string GetFilename(char *path);
 void DisplayProgress(int current, int max);
 
 int main(int argc, char *argv[]) {
-	int filecount = argc - 1;
+	// Simple error checking to prevent crash
+	if(argc < 2) {
+		cout << "To use this application drag and drop a selection of songs on";
+		cout << "to the application and it will run automatically.\n";
+		cout << "Press ENTER to exit.";
+		cin.get();
+		return 1;
+	}
 
 	// Set the directory
 	string directory = SetWorkingDirectory(argv[0]);
@@ -25,7 +32,7 @@ int main(int argc, char *argv[]) {
 
 	// Move the files to the new directory
 	for(int i = 1; i < argc; i++) {
-		DisplayProgress(i, filecount);
+		DisplayProgress(i, argc - 1);
 		string tempnewpath = fullpath + GetFilename(argv[i]);
 		MoveFile(argv[i], tempnewpath.c_str());
 	}
