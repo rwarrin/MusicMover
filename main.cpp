@@ -8,8 +8,11 @@ using namespace std;
 string CreateDirectoryNameFromFile(char * filename);
 string SetWorkingDirectory(char *path);
 string GetFilename(char *path);
+void DisplayProgress(int current, int max);
 
 int main(int argc, char *argv[]) {
+	int filecount = argc - 1;
+
 	// Set the directory
 	string directory = SetWorkingDirectory(argv[0]);
 	SetCurrentDirectory(directory.c_str());
@@ -22,11 +25,16 @@ int main(int argc, char *argv[]) {
 
 	// Move the files to the new directory
 	for(int i = 1; i < argc; i++) {
+		DisplayProgress(i, filecount);
 		string tempnewpath = fullpath + GetFilename(argv[i]);
 		MoveFile(argv[i], tempnewpath.c_str());
 	}
-
 	return 0;
+}
+
+void DisplayProgress(int current, int max) {
+	cout << "\b\b\b\b\b\b\b";
+	cout << current << " / " << max;
 }
 
 string GetFilename(char *path) {
