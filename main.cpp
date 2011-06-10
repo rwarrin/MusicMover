@@ -25,12 +25,26 @@ int main(int argc, char *argv[]) {
 	string newdirectory = CreateDirectoryNameFromFile(argv[1]);
 	CreateDirectory(newdirectory.c_str(), NULL);
 
-	string fullpath = directory + "\\" + newdirectory + "\\";
+	string fullpath = directory + "\\";
+
+	string tempnewpath;
 
 	// Move the files to the new directory
 	for(int i = 1; i < argc; i++) {
 		DisplayProgress(i, argc - 1);
-		string tempnewpath = fullpath + GetFilename(argv[i]);
+		int ret = ProcessFile(GetFilename(argv[i]), GetFilename(argv[i-1]));
+
+		if(ret == 1) {
+			newdirectory = CreateDirectoryNameFromFile(argv[i]);
+			CreateDirectory(newdirectory.c_str(), NULL);
+		}
+		
+		if(ret == 2) {
+			newdirectory = CreateDirectoryNameFromFile(argv[i]);
+			CreateDirectory(newdirectory.c_str(), NULL);
+		}
+
+		tempnewpath = fullpath + newdirectory + "\\" + GetFilename(argv[i]);
 		MoveFile(argv[i], tempnewpath.c_str());
 	}
 	return 0;
