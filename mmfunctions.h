@@ -15,5 +15,7 @@ void DisplayProgress(int current, int max);
 void ParseFilename(string filename);
 void ParseFilename(string filename, string &artist, string &album, string &song);
 int ProcessFile(string filename, string previousfilename);
+string CreateCleanDirectoryName(string filename);
+void CleanString(string &thestring);
 
 #endif  // MMFUNCTION_H

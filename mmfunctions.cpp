@@ -69,6 +69,13 @@ int ProcessFile(string filename, string previousfilename) {
 	ParseFilename(filename, current_artist, current_album, current_song);
 	ParseFilename(previousfilename, previous_artist, previous_album, previous_song);
 
+	CleanString(current_artist);
+	CleanString(current_album);
+	CleanString(current_song);
+	CleanString(previous_artist);
+	CleanString(previous_album);
+	CleanString(previous_song);
+
 	if(current_artist != previous_artist)
 		return 1;
 
@@ -77,4 +84,31 @@ int ProcessFile(string filename, string previousfilename) {
 
 	// Artist and Album are the same
 	return 0;
+}
+
+string CreateCleanDirectoryName(string filename) {
+	string artist;
+	string album;
+	string song;
+
+	ParseFilename(filename, artist, album, song);
+	
+	CleanString(artist);
+	CleanString(album);
+
+	string newDirectoryName = artist + " - " + album;
+	return newDirectoryName;
+}
+
+void CleanString(string &thestring) {
+	size_t found;
+
+	found = thestring.find(" ", 0);
+	thestring.erase(found, 1);
+
+	while(found != string::npos) {
+		found = thestring.find(" ");
+		if(found != string::npos)
+			thestring.erase(found, 1);
+	}
 }
